@@ -3,6 +3,7 @@
 ## Getting started
 
 `$ npm install @leahxia/bluescape-mobile-native-extensions --save`
+`$ npm react-native link @leahxia/bluescape-mobile-native-extensions`
 
 ## Usage
 ```javascript
