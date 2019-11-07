@@ -11,33 +11,33 @@ import Foundation
 @objc(NativeExtensions)
 class NativeExtensions: NSObject {
   @objc func calculateTextSize(_ text: String, styles: NSDictionary,
-                               resolver resolve: RCTPromiseResolveBlock,
-                               rejecter reject: RCTPromiseRejectBlock ) -> Void {
+                               resolver resolve: @escaping RCTPromiseResolveBlock,
+                               rejecter reject: @escaping RCTPromiseRejectBlock ) -> Void {
     
     guard let styles = styles as? [String: Any] else {
-      reject("Style object is invalid")
+      reject("Invalid parameters", "Style object is invalid", nil)
       return
     }
     
     guard let fontSize = styles["fontSize"] as? Int else {
-      reject("Font Size is invalid")
+      reject("Invalid parameters", "Font Size is invalid", nil)
       return
     }
     
     guard let sizeNumber: CGFloat = CGFloat(fontSize), sizeNumber > 0 else {
-      reject("Font Size cannot be negative")
+      reject("Invalid parameters", "Font Size cannot be negative", nil)
       return
     }
     
     guard let fontName = styles["fontFamily"] as? String,
           let font = fontName.isEmpty ? UIFont(name: "Dosis", size: sizeNumber) : UIFont(name: fontName, size: sizeNumber)
     else {
-      reject("Font Name is invalid")
+      reject("Invalid parameters", "Font Name is invalid", nil)
       return
     }
     
     guard let width = styles["width"] as? Float else {
-      reject("Item width is invalid")
+      reject("Invalid parameters", "Item width is invalid", nil)
       return
     }
 
@@ -47,7 +47,7 @@ class NativeExtensions: NSObject {
   }
   
   func getContentHeightWithSetWidth(for text: String, width: CGFloat, font: UIFont) -> CGSize {
-    let contentRect = NSString(string: text).boundingRect(with: CGSize(width: width, height: 10000), options: NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font : font], context: nil)
+    let contentRect = NSString(string: text).boundingRect(with: CGSize(width: width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font : font], context: nil)
     return contentRect.size
   }
   
