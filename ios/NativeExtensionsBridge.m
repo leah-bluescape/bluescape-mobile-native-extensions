@@ -11,7 +11,7 @@
 @interface RCT_EXTERN_MODULE(NativeExtensions, NSObject)
 
 RCT_EXTERN_METHOD(
-  calculateTextSize: (NSString *)text fontName:(NSString *)fontName size:(nonnull NSNumber *)size
+  calculateTextSize: (NSString *)text styles:(NSDictionary *)styles
   resolver: (RCTPromiseResolveBlock)resolve
   rejecter: (RCTPromiseRejectBlock)reject
 )

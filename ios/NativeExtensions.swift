@@ -10,20 +10,28 @@ import Foundation
 
 @objc(NativeExtensions)
 class NativeExtensions: NSObject {
-  @objc func calculateTextSize(_ text: String, fontName: String, size: NSNumber,
+  @objc func calculateTextSize(_ text: String, styles: NSDictionary,
                                resolver resolve: RCTPromiseResolveBlock,
                                rejecter reject: RCTPromiseRejectBlock ) -> Void {
     
-    let sizeNumber: CGFloat = CGFloat(Int(truncating: size))
+    guard let styles = styles as? [String: Any],
+          let fontSize = styles["fontSize"] as? Int,
+          let fontName = styles["fontFamily"] as? String,
+          let width = styles["width"] as? Float
+    else {
+      reject("Styles Missing", "styles missing", nil)
+      return
+    }
+
+    let sizeNumber: CGFloat = CGFloat(fontSize)
     guard sizeNumber > 0,
           let font = fontName.isEmpty ? UIFont(name: "Dosis", size: sizeNumber) : UIFont(name: fontName, size: sizeNumber)
     else {
       reject("Item Font Size", "Item font size cannot be negative", nil)
       return
     }
-   
-    let contentSize = getContentWithSetHeight(for: text, with: font)
-//    let contentSize = getContentHeightWithSetWidth(for: text, width: width, font: font)
+
+    let contentSize = getContentHeightWithSetWidth(for: text, width: CGFloat(width), font: font)
 
     resolve([contentSize.width, contentSize.height])
   }

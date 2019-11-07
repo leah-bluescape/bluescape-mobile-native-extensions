@@ -22,7 +22,7 @@ public class NativeExtensionsModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void calculateTextSize(String text, String fontName, int size, Promise promise) {
+    public void calculateTextSize(String text, ReadableMap styles, Promise promise) {
         try {
             System.out.println("Greetings from Java");
             WritableArray contentSize = new WritableNativeArray();
