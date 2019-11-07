@@ -14,20 +14,30 @@ class NativeExtensions: NSObject {
                                resolver resolve: RCTPromiseResolveBlock,
                                rejecter reject: RCTPromiseRejectBlock ) -> Void {
     
-    guard let styles = styles as? [String: Any],
-          let fontSize = styles["fontSize"] as? Int,
-          let fontName = styles["fontFamily"] as? String,
-          let width = styles["width"] as? Float
-    else {
-      reject("Styles Missing", "styles missing", nil)
+    guard let styles = styles as? [String: Any] else {
+      reject("Style object is invalid")
       return
     }
-
-    let sizeNumber: CGFloat = CGFloat(fontSize)
-    guard sizeNumber > 0,
+    
+    guard let fontSize = styles["fontSize"] as? Int else {
+      reject("Font Size is invalid")
+      return
+    }
+    
+    guard let sizeNumber: CGFloat = CGFloat(fontSize), sizeNumber > 0 else {
+      reject("Font Size cannot be negative")
+      return
+    }
+    
+    guard let fontName = styles["fontFamily"] as? String,
           let font = fontName.isEmpty ? UIFont(name: "Dosis", size: sizeNumber) : UIFont(name: fontName, size: sizeNumber)
     else {
-      reject("Item Font Size", "Item font size cannot be negative", nil)
+      reject("Font Name is invalid")
+      return
+    }
+    
+    guard let width = styles["width"] as? Float else {
+      reject("Item width is invalid")
       return
     }
 
