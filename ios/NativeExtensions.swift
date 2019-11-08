@@ -42,13 +42,14 @@ class NativeExtensions: NSObject {
       return
     }
 
-    let contentSize = getContentHeightWithSetWidth(for: text, width: CGFloat(truncating: width), font: font)
+    let widthNumber = CGFloat(truncating: width)
+    let contentSize = getContentHeightWithSetWidth(for: text, width: widthNumber, font: font)
 
     resolve([contentSize.width, contentSize.height])
   }
   
   func getContentHeightWithSetWidth(for text: String, width: CGFloat, font: UIFont) -> CGSize {
-    let contentRect = NSString(string: text).boundingRect(with: CGSize(width: width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font : font], context: nil)
+    let contentRect = NSString(string: text).boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font : font], context: nil)
     return contentRect.size
   }
   
