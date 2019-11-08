@@ -24,7 +24,8 @@ class NativeExtensions: NSObject {
       return
     }
     
-    guard let sizeNumber: CGFloat = CGFloat(fontSize), sizeNumber > 0 else {
+    let sizeNumber: CGFloat = CGFloat(fontSize)
+    guard sizeNumber > 0 else {
       reject("Invalid parameters", "Font Size cannot be negative", nil)
       return
     }
@@ -36,12 +37,12 @@ class NativeExtensions: NSObject {
       return
     }
     
-    guard let width = styles["width"] as? Float else {
+    guard let width = styles["width"] as? NSNumber else {
       reject("Invalid parameters", "Item width is invalid", nil)
       return
     }
 
-    let contentSize = getContentHeightWithSetWidth(for: text, width: CGFloat(width), font: font)
+    let contentSize = getContentHeightWithSetWidth(for: text, width: CGFloat(truncating: width), font: font)
 
     resolve([contentSize.width, contentSize.height])
   }
