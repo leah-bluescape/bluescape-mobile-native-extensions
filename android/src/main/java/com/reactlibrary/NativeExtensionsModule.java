@@ -25,10 +25,16 @@ public class NativeExtensionsModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void calculateTextSize(String text, ReadableMap styles, Promise promise) {
         try {
-            System.out.println("Greetings from Java");
             WritableArray contentSize = new WritableNativeArray();
-            contentSize.pushDouble(100.0);
-            contentSize.pushDouble(200.0);
+            if (styles.hasKey("width") && !styles.isNull("width")) {
+                contentSize.pushDouble(styles.getDouble("width"));
+                System.out.println(contentSize);
+            }
+
+            if (styles.hasKey("height") && !styles.isNull("height")) {
+                contentSize.pushDouble(styles.getDouble("height"));
+                System.out.println(contentSize);
+            }
             promise.resolve(contentSize);
         } catch (IllegalViewOperationException e) {
             promise.reject(e);
