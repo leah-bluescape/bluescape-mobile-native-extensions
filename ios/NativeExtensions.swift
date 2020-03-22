@@ -41,15 +41,16 @@ class NativeExtensions: NSObject {
       reject("Invalid parameters", "Item width is invalid", nil)
       return
     }
-
     let widthNumber = CGFloat(truncating: width)
     let contentSize = getContentHeightWithSetWidth(for: text, width: widthNumber, font: font)
-
-    resolve([contentSize.width, contentSize.height])
+    resolve(["width": contentSize.width, "height": contentSize.height])
   }
   
   func getContentHeightWithSetWidth(for text: String, width: CGFloat, font: UIFont) -> CGSize {
-    let contentRect = NSString(string: text).boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font : font], context: nil)
+    let boundSize = CGSize(width: width, height: .greatestFiniteMagnitude)
+    let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+    let attributes = [NSAttributedString.Key.font : font]
+    let contentRect = NSString(string: text).boundingRect(with: boundSize, options: options, attributes: attributes, context: nil)
     return contentRect.size
   }
   
