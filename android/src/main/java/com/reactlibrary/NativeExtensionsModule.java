@@ -31,17 +31,24 @@ public class NativeExtensionsModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void calculateTextSize(String text, ReadableMap styles, Promise promise) {
         try {
-
             validateStyleValue("width", styles);
             validateStyleValue("height", styles);
             validateStyleValue("fontFamily", styles);
             validateStyleValue("fontSize", styles);
+            validateStyleValue("fontWeight", styles);
+            validateStyleValue("fontStyle", styles);
 
-            String fontFamily = "fonts/" + styles.getString("fontFamily") + ".ttf";
+            String fontFamily = "fonts/" + styles.getString("fontFamily");
+            String fontWeight = styles.getString("fontWeight");
+            String fontStyle = styles.getString("fontStyle");
             float fontSize = (float) styles.getInt("fontSize");
 
-            Typeface plain = Typeface.createFromAsset(getCurrentActivity().getAssets(), fontFamily);
-//            Typeface bold = Typeface.create(plain, Typeface.DEFAULT_BOLD);
+            Typeface fontTypeface = Typeface.createFromAsset(getCurrentActivity().getAssets(), fontFamily);
+
+            int weight = ((fontWeight == "bold") ? Typeface.BOLD : Typeface.NORMAL);
+            boolean isItalic = (fontStyle == "italic");
+
+            Typeface plain = Typeface.create(fontTypeface, weight, isItalic);
             TextPaint paint = new TextPaint();
             paint.setTypeface(plain);
             paint.setTextSize(fontSize);
