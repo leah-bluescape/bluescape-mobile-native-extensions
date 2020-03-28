@@ -30,10 +30,18 @@ class NativeExtensions: NSObject {
       return
     }
     
-    guard let fontName = styles["fontFamily"] as? String,
-          let font = fontName.isEmpty ? UIFont(name: "Dosis", size: sizeNumber) : UIFont(name: fontName, size: sizeNumber)
-    else {
+    guard let fontName = styles["fontFamily"] as? String else {
       reject("Invalid parameters", "Font Name is invalid", nil)
+      return
+    }
+
+    guard let fontWeight = styles["fontWeight"] as? String else {
+      reject("Invalid parameters", "Font Weight is invalid", nil)
+      return
+    }
+    
+    guard let fontStyle = styles["fontStyle"] as? String else {
+      reject("Invalid parameters", "Font Style is invalid", nil)
       return
     }
     
@@ -41,8 +49,28 @@ class NativeExtensions: NSObject {
       reject("Invalid parameters", "Item width is invalid", nil)
       return
     }
+
+    var font = UIFont(name: "Dosis", size: sizeNumber)
+    if fontWeight == "bold" || fontStyle == "italic" {
+      let descriptor = UIFontDescriptor(name: fontName, size: CGFloat(fontSize))
+      if fontWeight == "bold" {
+        descriptor.withSymbolicTraits(.traitBold)
+      }
+      if fontStyle == "italic" {
+        descriptor.withSymbolicTraits(.traitItalic)
+      }
+      font = UIFont(descriptor: descriptor, size: CGFloat(fontSize))
+    } else {
+      font = UIFont(name: fontName, size: sizeNumber)
+    }
+
+    guard let customFont = font else {
+      reject("Invalid parameters", "Font Name is invalid", nil)
+      return
+    }
+
     let widthNumber = CGFloat(truncating: width)
-    let contentSize = getContentHeightWithSetWidth(for: text, width: widthNumber, font: font)
+    let contentSize = getContentHeightWithSetWidth(for: text, width: widthNumber, font: customFont)
     resolve(["width": contentSize.width, "height": contentSize.height])
   }
   
