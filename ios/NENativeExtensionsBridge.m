@@ -1,5 +1,5 @@
 //
-//  NativeExtensionsBridge.m
+//  NENativeExtensionsBridge.m
 //  bluescape_mobile
 //
 //  Created by Leah Xia on 2019-11-04.
@@ -8,7 +8,7 @@
 
 #import "React/RCTBridgeModule.h"
 
-@interface RCT_EXTERN_MODULE(NativeExtensions, NSObject)
+@interface RCT_EXTERN_MODULE(NENativeExtensions, NSObject)
 
 RCT_EXTERN_METHOD(
   calculateTextSize: (NSString *)text styles:(NSDictionary *)styles

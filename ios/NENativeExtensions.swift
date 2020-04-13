@@ -1,5 +1,5 @@
 //
-//  NativeExtensions.swift
+//  NENativeExtensions.swift
 //  bluescape_mobile
 //
 //  Created by Leah Xia on 2019-11-04.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-@objc(NativeExtensions)
-class NativeExtensions: NSObject {
+@objc(NENativeExtensions)
+class NENativeExtensions: NSObject {
   @objc func calculateTextSize(_ text: String, styles: NSDictionary,
                                resolver resolve: @escaping RCTPromiseResolveBlock,
                                rejecter reject: @escaping RCTPromiseRejectBlock ) -> Void {

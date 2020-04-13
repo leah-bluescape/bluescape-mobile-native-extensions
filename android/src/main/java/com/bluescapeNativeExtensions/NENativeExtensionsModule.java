@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.bluescapeNativeExtensions;
 
 import android.graphics.Typeface;
 import android.text.Layout;
@@ -16,16 +16,19 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.IllegalViewOperationException;
 
-public class NativeExtensionsModule extends ReactContextBaseJavaModule {
+public class NENativeExtensionsModule extends ReactContextBaseJavaModule {
 
-    public NativeExtensionsModule(ReactApplicationContext reactContext) {
+    private final ReactApplicationContext reactContext;
+
+    public NENativeExtensionsModule(ReactApplicationContext reactContext) {
         super(reactContext); //required by React Native
+        this.reactContext = reactContext;
     }
 
     @Override
     //getName is required to define the name of the module represented in JavaScript
     public String getName() {
-        return "NativeExtensions";
+        return "NENativeExtensions";
     }
 
     @ReactMethod

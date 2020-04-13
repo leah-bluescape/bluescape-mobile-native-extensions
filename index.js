@@ -1,5 +1,5 @@
 import { NativeModules } from 'react-native';
 
-const { NativeExtensions } = NativeModules;
+const { NENativeExtensions } = NativeModules;
 
-export default NativeExtensions;
+export default NENativeExtensions;
