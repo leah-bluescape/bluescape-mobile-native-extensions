@@ -45,8 +45,8 @@ class NENativeExtensions: NSObject {
       return
     }
     
-    guard let width = styles["width"] as? NSNumber else {
-      reject("Invalid parameters", "Item width is invalid", nil)
+    guard let width = styles["actualWidth"] as? NSNumber else {
+      reject("Invalid parameters", "Item actualWidth is invalid", nil)
       return
     }
 

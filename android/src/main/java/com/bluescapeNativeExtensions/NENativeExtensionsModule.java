@@ -34,8 +34,7 @@ public class NENativeExtensionsModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void calculateTextSize(String text, ReadableMap styles, Promise promise) {
         try {
-            validateStyleValue("width", styles);
-            validateStyleValue("height", styles);
+            validateStyleValue("actualWidth", styles);
             validateStyleValue("fontFamily", styles);
             validateStyleValue("fontSize", styles);
             validateStyleValue("fontWeight", styles);
@@ -56,7 +55,7 @@ public class NENativeExtensionsModule extends ReactContextBaseJavaModule {
             paint.setTypeface(plain);
             paint.setTextSize(fontSize);
 
-            StaticLayout newLayout = measure(paint, text, (int) styles.getDouble("width"));
+            StaticLayout newLayout = measure(paint, text, (int) styles.getDouble("actualWidth"));
             float width = newLayout.getWidth();
             float height = newLayout.getHeight();
 
