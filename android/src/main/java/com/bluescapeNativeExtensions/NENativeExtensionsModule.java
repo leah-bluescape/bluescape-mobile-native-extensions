@@ -78,15 +78,10 @@ public class NENativeExtensionsModule extends ReactContextBaseJavaModule {
     private StaticLayout measure( TextPaint textPaint, String text, Integer wrapWidth ) {
         int letterWidth = (int) textPaint.measureText("M"); // Widest letter
         int boundedWidth = letterWidth * text.length();
-        if (boundedWidth > wrapWidth) {
+        if (boundedWidth > wrapWidth && wrapWidth != null && wrapWidth > 0) {
             boundedWidth = wrapWidth;
         }
 
-        if (wrapWidth != null && wrapWidth > 0 ) {
-            boundedWidth = wrapWidth;
-        } else {
-            throw new IllegalViewOperationException("actualWidth should be greater than 0");
-        }
         StaticLayout layout = new StaticLayout( text, textPaint, boundedWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false );
         return layout;
     }
