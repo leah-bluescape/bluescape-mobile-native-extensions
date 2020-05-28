@@ -4,7 +4,6 @@ import android.graphics.Typeface;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
-import android.util.Log;
 
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -55,7 +54,8 @@ public class NENativeExtensionsModule extends ReactContextBaseJavaModule {
             paint.setTypeface(plain);
             paint.setTextSize(fontSize);
 
-            StaticLayout newLayout = measure(paint, text, (int) styles.getDouble("actualWidth"));
+            int actualWidth = (int) styles.getDouble("actualWidth");
+            StaticLayout newLayout = measure(paint, text, actualWidth);
             float width = newLayout.getWidth();
             float height = newLayout.getHeight();
 
@@ -76,22 +76,18 @@ public class NENativeExtensionsModule extends ReactContextBaseJavaModule {
     }
 
     private StaticLayout measure( TextPaint textPaint, String text, Integer wrapWidth ) {
-        int boundedWidth = Integer.MAX_VALUE;
+        int letterWidth = (int) textPaint.measureText("M"); // Widest letter
+        int boundedWidth = letterWidth * text.length();
+        if (boundedWidth > wrapWidth) {
+            boundedWidth = wrapWidth;
+        }
+
         if (wrapWidth != null && wrapWidth > 0 ) {
             boundedWidth = wrapWidth;
+        } else {
+            throw new IllegalViewOperationException("actualWidth should be greater than 0");
         }
         StaticLayout layout = new StaticLayout( text, textPaint, boundedWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false );
         return layout;
-    }
-
-    private float getMaxLineWidth( StaticLayout layout ) {
-        float maxLine = 0.0f;
-        int lineCount = layout.getLineCount();
-        for( int i = 0; i < lineCount; i++ ) {
-            if( layout.getLineWidth( i ) > maxLine ) {
-                maxLine = layout.getLineWidth( i );
-            }
-        }
-        return maxLine;
     }
 }
